@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ExcelImageExport</title>
+    <link href="./bootstrap.css" rel="stylesheet">
+    <style>
+        .panel {
+            margin: 20px auto;
+        }
+
+        h2 a {
+            text-decoration: none;
+            color: coral;
+        }
+
+        h2 a:hover {
+            text-decoration: none;
+            color: lightcoral;
+        }
+
+        #message {
+            margin: 10px auto;
+            width: 90%;
+            height: 300px;
+            border: #666 1px solid;
+            box-shadow: #666 0px 0px 5px inset;
+            overflow-y: scroll;
+            padding: 8px;
+        }
+
+        #message > p {
+            border-bottom: #aaa 1px dashed;
+        }
+
+        .group {
+            margin: 10px 0;
+        }
+
+        .group label {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <div class="container panel">
+        <h1>Excel自动导出图片设置文件名Ver1.0.0</h1>
+        <h2>
+            <a href="https://github.com/ruan4261" target="_blank">Follow my github : ruan4261</a>
+        </h2>
+        <p>
+            使用说明：支持excel2003及2007版本。一次只能选择一个sheet表，如果一个源文件中有三个sheet表的图片需要导出，您需要设置并启动三次导出程序。
+        </p>
+        <p>
+            一张图片会对应一行数据，你可以指定这一行中的某一列对这张图片进行命名。
+            <br>
+            场景：A列为用户姓名，其他某个列为用户图片，程序会自动扫描所有图片并打上行号标识。随后图片将根据行号及您提供的指定列锁定一个单元格，此单元格的内容将成为图片的名称。
+        </p>
+        <p style="color: red;">
+            特别注意：目前版本中，如果同一行中出现两张图片，则这两张图片中的随机一张将被覆盖！
+            <br>
+            请勿在文件夹名前后添加半角空格，这可能会导致程序找不到目标文件夹。
+            <br>
+            目标文件夹程序可以自动创建，不必手动新建。
+        </p>
+        <div class="row">
+            <div class="col-12 group">
+                <h3>Excel源文件绝对路径->String</h3>
+                <p>
+                    提供给您三个输入框，你可以将不会修改的部分放在前后输入框中，这可以使你修改路径中某一字段时更加方便，如你有多个源文件需要导出图片，这些源文件的后缀名相同，你可以将后缀名写在第三个输入框中，此时第二个输入框中不应该再写入后缀名。</p>
+                <div class="row">
+                    <input class="col-4" type="text" id="origin1">
+                    <input class="col-4" type="text" id="origin2">
+                    <input class="col-4" type="text" id="origin3">
+                </div>
+            </div>
+            <div class="col-12 group">
+                <h3>源文件中目标Sheet下标->Integer</h3>
+                <div class="row">
+                    <input class="col-12" type="text" id="sheet">
+                </div>
+            </div>
+            <div class="col-12 group">
+                <h3>标识列下标（作为图片名的列）->Integer</h3>
+                <div class="row">
+                    <input class="col-12" type="text" id="sign-col">
+                </div>
+            </div>
+            <div class="col-12 group">
+                <h3>目标文件夹绝对路径->String</h3>
+                <div class="row">
+                    <input class="col-12" type="text" id="target">
+                </div>
+            </div>
+
+            <div class="col-12 button-group">
+                <div>
+                    源文件版本：
+                    <input type="radio" name="ver" value="3">03版本&nbsp;&nbsp;
+                    <input type="radio" name="ver" value="7" checked>07版本&nbsp;&nbsp;
+                    <button type="button" id="run">启动</button>
+                </div>
+            </div>
+        </div>
+        <h1 style="text-align: center">反馈窗口</h1>
+        <div id="message"></div>
+    </div>
+</section>
+</body>
+<script src="./jquery1.12.4.js"></script>
+<script>
+    $('#run').click(function () {
+        $.ajax({
+            method: "POST",
+            url: '/api/v1',
+            data: {
+                origin: $('#origin1').val() + $('#origin2').val() + $('#origin3').val(),
+                sheet: $('#sheet').val(),
+                signcol: $('#sign-col').val(),
+                target: $('#target').val(),
+                version: $('input[name="ver"]:checked').val()
+            },
+            dataType: "text",
+            success: function (data) {
+                var box = $("<p></p>");
+                box.html(data);
+                $('#message').append(box);
+            },
+            error: function () {
+                var box = "<p>发生错误，原因可能是：1.无法连接服务器，2.操作过长响应超时，3.服务器发生bug</p>";
+                $('#message').append(box);
+            }
+        })
+        ;
+    });
+</script>
+</html>

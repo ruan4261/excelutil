@@ -10,9 +10,9 @@
     </parent>
     <groupId>org.ruan.excelutil</groupId>
     <artifactId>excelutil</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1.RELEASE</version>
     <name>excelutil</name>
-    <description>Demo project for Spring Boot</description>
+    <description>excel picture export</description>
 
     <properties>
         <java.version>1.8</java.version>

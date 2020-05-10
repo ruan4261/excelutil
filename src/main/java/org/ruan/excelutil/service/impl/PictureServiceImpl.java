@@ -58,7 +58,7 @@ public class PictureServiceImpl implements PictureService {
                 }
             }
 
-        } catch (IOException | NullPointerException e) {
+        } catch (IOException | NullPointerException | IllegalStateException e) {
             e.printStackTrace();
             return result.append(e.getMessage()).append("\n").toString();
         } finally {

@@ -45,7 +45,7 @@
 <body>
 <section>
     <div class="container panel">
-        <h1>Excel自动导出图片设置文件名Ver1.0.0</h1>
+        <h1>Excel自动导出图片设置文件名Ver1.0.1</h1>
         <h2>
             <a href="https://github.com/ruan4261" target="_blank">Follow my github : ruan4261</a>
         </h2>
@@ -55,10 +55,10 @@
         <p>
             一张图片会对应一行数据，你可以指定这一行中的某一列对这张图片进行命名。
             <br>
-            场景：A列为用户姓名，其他某个列为用户图片，程序会自动扫描所有图片并打上行号标识。随后图片将根据行号及您提供的指定列锁定一个单元格，此单元格的内容将成为图片的名称。
+            场景：A列为用户姓名，其他某个列为用户图片，程序会自动扫描所有图片并打上行号标识(根据图片最高基准点)。随后图片将根据行号及您提供的指定列锁定一个单元格，此单元格的内容将成为图片的名称。
         </p>
         <p style="color: red;">
-            特别注意：目前版本中，如果同一行中出现两张图片，则这两张图片中的随机一张将被覆盖！
+            特别注意：目前版本中，如果同一行最多导出一张图片，如有多张图片，先前导出的图片会被覆盖！如果源文件中的图片为浮动图片，确保第N行的图片的最高基准点没有串行至N-1行（最高基准点定位为图片左上角）。
             <br>
             请勿在文件夹名前后添加半角空格，这可能会导致程序找不到目标文件夹。
             <br>
@@ -124,12 +124,16 @@
             dataType: "text",
             success: function (data) {
                 var box = $("<p></p>");
+                var reg = new RegExp("\n", "g");
+                data = data.replace(reg, "<br/>");
                 box.html(data);
                 $('#message').append(box);
+                $('#message').scrollTop(document.querySelector("#message").scrollHeight);
             },
             error: function () {
-                var box = "<p>发生错误，原因可能是：1.无法连接服务器，2.操作过长响应超时，3.服务器发生bug</p>";
+                var box = "<p>The error may be ：1.无法连接服务器 2.操作过长响应超时 3.服务器未知bug，请检查兼容性问题</p>";
                 $('#message').append(box);
+                $('#message').scrollTop(document.querySelector("#message").scrollHeight);
             }
         })
         ;

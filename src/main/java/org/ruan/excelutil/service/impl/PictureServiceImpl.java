@@ -27,9 +27,9 @@ public class PictureServiceImpl implements PictureService {
             Map<Integer, String> nameMap = new HashMap<>();
             Map<Integer, PictureData> map = null;
             if (ver == 7) {
-                map = PictureUtil.getPictureMap2007(fileInputStream, sheetIndex, nameCol, nameMap);
+                map = PictureUtil.getPictureMap2007(fileInputStream, sheetIndex, nameCol, nameMap, result);
             } else if (ver == 3) {
-                map = PictureUtil.getPictureMap2003(fileInputStream, sheetIndex, nameCol, nameMap);
+                map = PictureUtil.getPictureMap2003(fileInputStream, sheetIndex, nameCol, nameMap, result);
             }
 
             // 输出流
@@ -40,15 +40,18 @@ public class PictureServiceImpl implements PictureService {
             File folder = new File(savePath);
             if (!folder.exists() || !folder.isDirectory()) {
                 if (folder.mkdirs())
-                    result.append("目标文件夹不存在，已自动创建。").append("\n");
+                    result.append("目标文件夹不存在，已自动创建。\n");
                 else {
-                    return result.append("目标文件夹不存在，且自动创建失败，已强制退出。").append("\n").toString();
+                    return result.append("目标文件夹不存在，且自动创建失败，已强制退出。\n").toString();
                 }
             }
 
             // 每张图片都创建流
             for (Map.Entry entry : map.entrySet()) {
-                fileOutputStream = new FileOutputStream(savePath + nameMap.get(entry.getKey()) + ".png");
+                File file = new File(savePath + nameMap.get(entry.getKey()) + ".png");
+                if (file.exists() && file.isFile())
+                    result.append("文件夹原文件被覆盖:").append(nameMap.get(entry.getKey())).append(".png\n");
+                fileOutputStream = new FileOutputStream(file);
                 FileOutputUtil.upload(fileOutputStream, ((PictureData) entry.getValue()).getData());
                 try {
                     fileInputStream.close();

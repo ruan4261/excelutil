@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ExcelImageExport</title>
-    <link href="./bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/blog_static@1.0.6200407/css/bootstrap.css" rel="stylesheet">
     <style>
         .panel {
             margin: 20px auto;
@@ -45,12 +45,12 @@
 <body>
 <section>
     <div class="container panel">
-        <h1>Excel自动导出图片设置文件名Ver1.0.1</h1>
+        <h1>Excel自动导出图片设置文件名Ver1.0.3</h1>
         <h2>
             <a href="https://github.com/ruan4261" target="_blank">Follow my github : ruan4261</a>
         </h2>
         <p>
-            使用说明：支持excel2003及2007版本。一次只能选择一个sheet表，如果一个源文件中有三个sheet表的图片需要导出，您需要设置并启动三次导出程序。
+            使用说明：支持excel2003及2007版本的源文件读取(.xls/.xlsx)。一次只能选择一个sheet表，如果一个源文件中有三个sheet表的图片需要导出，您需要设置并启动三次导出程序。
         </p>
         <p>
             一张图片会对应一行数据，你可以指定这一行中的某一列对这张图片进行命名。
@@ -58,7 +58,7 @@
             场景：A列为用户姓名，其他某个列为用户图片，程序会自动扫描所有图片并打上行号标识(根据图片最高基准点)。随后图片将根据行号及您提供的指定列锁定一个单元格，此单元格的内容将成为图片的名称。
         </p>
         <p style="color: red;">
-            特别注意：目前版本中，如果同一行最多导出一张图片，如有多张图片，先前导出的图片会被覆盖！如果源文件中的图片为浮动图片，确保第N行的图片的最高基准点没有串行至N-1行（最高基准点定位为图片左上角）。
+            特别注意：目前版本中，如果同一行最多导出一张图片，如有多张图片，先前导出的图片会被覆盖！如果源文件中的图片为浮动图片，请确保第N行的图片的最高基准点没有串行至N-1行（最高基准点定位为图片左上角）。
             <br>
             请勿在文件夹名前后添加半角空格，这可能会导致程序找不到目标文件夹。
             <br>
@@ -97,8 +97,8 @@
             <div class="col-12 button-group">
                 <div>
                     源文件版本：
-                    <input type="radio" name="ver" value="3">03版本&nbsp;&nbsp;
-                    <input type="radio" name="ver" value="7" checked>07版本&nbsp;&nbsp;
+                    <input type="radio" name="ver" value="3">03版本(.xls)&nbsp;&nbsp;
+                    <input type="radio" name="ver" value="7" checked>07版本(.xlsx)&nbsp;&nbsp;
                     <button type="button" id="run">启动</button>
                 </div>
             </div>
@@ -108,7 +108,7 @@
     </div>
 </section>
 </body>
-<script src="./jquery1.12.4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blog_static@1.0.6200407/js/jquery1.12.4.js"></script>
 <script>
     $('#run').click(function () {
         $.ajax({

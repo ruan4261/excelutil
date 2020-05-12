@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.ruan.excelutil</groupId>
     <artifactId>excelutil</artifactId>
-    <version>1.0.1.RELEASE</version>
+    <version>1.0.2.RELEASE</version>
     <name>excelutil</name>
     <description>excel picture export</description>
 

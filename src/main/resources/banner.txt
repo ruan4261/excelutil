@@ -10,5 +10,5 @@ ${AnsiColor.GREEN}
 Blog https://www.4261.ink
 GitHub ruan4261
 QQ 2598055586
-:: excelutil (v1.0.1.RELEASE) :: Spring Boot${spring-boot.formatted-version}
+:: excelutil (v1.0.3.RELEASE) :: Spring Boot${spring-boot.formatted-version}
 ${AnsiStyle.NORMAL}
